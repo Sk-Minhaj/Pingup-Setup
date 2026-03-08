@@ -1,15 +1,3 @@
-// Get Single Post
-export const getSinglePost = async (req, res) => {
-    try {
-        const post = await Post.findById(req.params.id).populate('user');
-        if (!post) {
-            return res.json({ success: false, message: 'Post not found' });
-        }
-        res.json({ success: true, post });
-    } catch (error) {
-        res.json({ success: false, message: error.message });
-    }
-}
 import fs from "fs";
 import imagekit from "../configs/imageKit.js";
 import Post from "../models/Post.js";
