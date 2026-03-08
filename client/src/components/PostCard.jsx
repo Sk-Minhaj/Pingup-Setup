@@ -8,6 +8,7 @@ import { useAuth } from '@clerk/clerk-react'
 import api from '../api/axios'
 import toast from 'react-hot-toast'
 import EditPostModal from './EditPostModal'
+import CodeSnippetDisplay from './CodeSnippetDisplay'
 
 const PostCard = ({post: initialPost}) => {
 
@@ -162,6 +163,15 @@ const PostCard = ({post: initialPost}) => {
                 <img src={img} key={index} className={`w-full h-48 object-cover rounded-lg ${post.image_urls.length === 1 && 'col-span-2 h-auto'}`} alt="" />
             ))}
        </div>
+
+       {/* Code Snippets */}
+       {post.code_snippets && post.code_snippets.length > 0 && (
+         <div className='space-y-3'>
+           {post.code_snippets.map((snippet, index) => (
+             <CodeSnippetDisplay key={index} snippet={snippet} />
+           ))}
+         </div>
+       )}
 
         {/* Actions */}
         <div className='flex items-center gap-4 text-gray-600 text-sm pt-2 border-t border-gray-300'>

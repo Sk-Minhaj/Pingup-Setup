@@ -7,7 +7,7 @@ import User from "../models/User.js";
 export const addPost = async (req, res) => {
     try {
         const { userId } = req.auth();
-        const { content, post_type } = req.body;
+        const { content, post_type, code_snippets } = req.body;
         const images = req.files
 
         let image_urls = []
@@ -35,12 +35,19 @@ export const addPost = async (req, res) => {
             )
         }
 
-        await Post.create({
+        const postData = {
             user: userId,
             content,
             image_urls,
             post_type
-        })
+        }
+
+        // Parse code snippets if provided
+        if(code_snippets){
+            postData.code_snippets = typeof code_snippets === 'string' ? JSON.parse(code_snippets) : code_snippets
+        }
+
+        await Post.create(postData)
         res.json({ success: true, message: "Post created successfully" });
     } catch (error) {
         console.log(error);
@@ -118,7 +125,7 @@ export const deletePost = async (req, res) =>{
 export const editPost = async (req, res) =>{
     try {
         const { userId } = req.auth()
-        const { postId, content } = req.body;
+        const { postId, content, code_snippets } = req.body;
         const images = req.files
 
         const post = await Post.findById(postId)
@@ -158,6 +165,12 @@ export const editPost = async (req, res) =>{
 
         post.content = content
         post.image_urls = image_urls
+        
+        // Update code snippets if provided
+        if(code_snippets){
+            post.code_snippets = typeof code_snippets === 'string' ? JSON.parse(code_snippets) : code_snippets
+        }
+
         await post.save()
 
         res.json({ success: true, message: 'Post updated successfully', post });
