@@ -5,9 +5,9 @@ import {SignIn} from '@clerk/clerk-react'
 
 const Login = () => {
   return (
-    <div className='min-h-screen flex flex-col md:flex-row bg-white dark:bg-gray-900'>
-      {/* Background Image */}
-      <img src={assets.bgImage} alt="" className='absolute top-0 left-0 -z-10 w-full h-full object-cover opacity-5'/>
+    <div className='min-h-screen flex flex-col md:flex-row bg-white dark:bg-gray-900 relative overflow-hidden'>
+      {/* Background Image - Full Coverage */}
+      <img src={assets.bgImage} alt="" className='absolute top-0 left-0 w-full h-full object-cover opacity-35'/>
 
       {/* Left side : Branding  */}
       <div className='flex-1 flex flex-col items-start justify-between p-6 md:p-10 lg:pl-40 relative z-10'>
@@ -22,8 +22,8 @@ const Login = () => {
                     <p className='text-gray-700 dark:text-gray-300 text-sm'>Used by 10k+ developers</p>
                 </div>
             </div>
-            <h1 className='text-3xl md:text-6xl md:pb-2 font-bold bg-gradient-to-r from-indigo-600 to-indigo-400 bg-clip-text text-transparent dark:from-indigo-400 dark:to-indigo-300'>More than just friends truly connect</h1>
-            <p className='text-xl md:text-3xl text-indigo-600 dark:text-indigo-400 max-w-72 md:max-w-md'>Connect with global community on PingUp.</p>
+            <h1 className='text-3xl md:text-6xl md:pb-2 font-bold bg-gradient-to-r from-indigo-600 to-indigo-400 bg-clip-text text-transparent dark:from-indigo-400 dark:to-indigo-300'>Build. Code. Collaborate.</h1>
+            <p className='text-xl md:text-3xl text-indigo-600 dark:text-indigo-400 max-w-72 md:max-w-md'>Where tech enthusiasts connect and innovate together.</p>
         </div>
         <span className='md:h-10'></span>
       </div>

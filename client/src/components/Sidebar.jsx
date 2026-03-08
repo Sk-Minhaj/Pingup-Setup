@@ -2,7 +2,6 @@ import React from 'react'
 import { assets, dummyUserData } from '../assets/assets'
 import { Link, useNavigate } from 'react-router-dom'
 import MenuItems from './MenuItems'
-import ThemeToggle from './ThemeToggle'
 import { CirclePlus, LogOut } from 'lucide-react'
 import {UserButton, useClerk} from '@clerk/clerk-react'
 import { useSelector } from 'react-redux';
@@ -26,11 +25,6 @@ const Sidebar = ({sidebarOpen, setSidebarOpen}) => {
                 <CirclePlus className='w-5 h-5'/>
                 Create Post
             </Link>
-
-            {/* Theme Toggle - full width, below Create Post */}
-            <div className='flex justify-center mt-3 mb-2 px-6'>
-              <ThemeToggle className='w-full' />
-            </div>
       </div>
 
         <div className='w-full border-t border-gray-200 dark:border-gray-800 p-4 px-7 flex items-center justify-between'>
