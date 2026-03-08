@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { BadgeCheck, Heart, MessageCircle, Share2 } from 'lucide-react'
+import { BadgeCheck, Heart, MessageCircle, Share2, Trash2 } from 'lucide-react'
 import moment from 'moment'
 import { dummyUserData } from '../assets/assets'
 import { useNavigate } from 'react-router-dom'
@@ -54,18 +54,39 @@ const PostCard = ({post}) => {
         setShowShare(false)
     }
 
+    const handleDelete = async () => {
+        try {
+            const { data } = await api.post('/api/post/delete', {postId: post._id}, {headers: { Authorization: `Bearer ${await getToken()}` }})
+            if (data.success){
+               toast.success(data.message)
+               window.location.reload()
+            }else{
+                toast.error(data.message)
+            }
+        } catch (error) {
+            toast.error(error.message)
+        }
+    }
+
     return (
     <div className='bg-white rounded-xl shadow p-4 space-y-4 w-full max-w-2xl'>
         {/* User Info */}
-        <div onClick={()=> navigate('/profile/' + post.user._id)} className='inline-flex items-center gap-3 cursor-pointer'>
-            <img src={post.user.profile_picture} alt="" className='w-10 h-10 rounded-full shadow'/>
-            <div>
-                <div className='flex items-center space-x-1'>
-                    <span>{post.user.full_name}</span>
-                    <BadgeCheck className='w-4 h-4 text-blue-500'/>
+        <div className='flex items-center justify-between'>
+            <div onClick={()=> navigate('/profile/' + post.user._id)} className='inline-flex items-center gap-3 cursor-pointer'>
+                <img src={post.user.profile_picture} alt="" className='w-10 h-10 rounded-full shadow'/>
+                <div>
+                    <div className='flex items-center space-x-1'>
+                        <span>{post.user.full_name}</span>
+                        <BadgeCheck className='w-4 h-4 text-blue-500'/>
+                    </div>
+                    <div className='text-gray-500 text-sm'>@{post.user.username} • {moment(post.createdAt).fromNow()}</div>
                 </div>
-                <div className='text-gray-500 text-sm'>@{post.user.username} • {moment(post.createdAt).fromNow()}</div>
             </div>
+            {currentUser._id === post.user._id && (
+                <button onClick={handleDelete} className='text-red-500 hover:text-red-700 cursor-pointer' title='Delete post'>
+                    <Trash2 className='w-5 h-5'/>
+                </button>
+            )}
         </div>
          {/* Content */}
          {post.content && <div className='text-gray-800 text-sm whitespace-pre-line' dangerouslySetInnerHTML={{__html: postWithHashtags}}/>}
