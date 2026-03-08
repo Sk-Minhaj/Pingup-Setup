@@ -1,4 +1,4 @@
-import { Calendar, MapPin, PenBox, Verified } from 'lucide-react'
+import { Calendar, MapPin, PenBox, Verified, Linkedin, Twitter, Github, Globe } from 'lucide-react'
 import moment from 'moment'
 import React from 'react'
 
@@ -39,6 +39,42 @@ const UserProfileInfo = ({user, posts, profileId, setShowEdit}) => {
                     Joined <span className='font-medium'>{moment(user.createdAt).fromNow()}</span>
                 </span>
             </div>
+
+            {/* Social Media Links */}
+            {user.social_media && Object.values(user.social_media).some(link => link) && (
+                <div className='flex flex-wrap items-center gap-3 mt-4 pt-4 border-t border-gray-200'>
+                    {user.social_media?.linkedin && (
+                        <a href={user.social_media.linkedin} target='_blank' rel='noopener noreferrer' className='text-blue-600 hover:text-blue-800 transition hover:scale-110'>
+                            <Linkedin className='w-5 h-5'/>
+                        </a>
+                    )}
+                    {user.social_media?.twitter && (
+                        <a href={user.social_media.twitter} target='_blank' rel='noopener noreferrer' className='text-blue-400 hover:text-blue-600 transition hover:scale-110'>
+                            <Twitter className='w-5 h-5'/>
+                        </a>
+                    )}
+                    {user.social_media?.github && (
+                        <a href={user.social_media.github} target='_blank' rel='noopener noreferrer' className='text-gray-800 hover:text-gray-950 transition hover:scale-110'>
+                            <Github className='w-5 h-5'/>
+                        </a>
+                    )}
+                    {user.social_media?.portfolio && (
+                        <a href={user.social_media.portfolio} target='_blank' rel='noopener noreferrer' className='text-purple-600 hover:text-purple-800 transition hover:scale-110'>
+                            <Globe className='w-5 h-5'/>
+                        </a>
+                    )}
+                    {user.social_media?.devto && (
+                        <a href={user.social_media.devto} target='_blank' rel='noopener noreferrer' className='text-gray-900 hover:text-indigo-600 transition hover:scale-110 text-xs font-bold w-5 h-5 flex items-center justify-center'>
+                            D
+                        </a>
+                    )}
+                    {user.social_media?.medium && (
+                        <a href={user.social_media.medium} target='_blank' rel='noopener noreferrer' className='text-gray-900 hover:text-gray-600 transition hover:scale-110 text-xs font-bold w-5 h-5 flex items-center justify-center'>
+                            M
+                        </a>
+                    )}
+                </div>
+            )}
 
             <div className='flex items-center gap-6 mt-6 border-t border-gray-200 pt-4'>
                 <div>

@@ -26,7 +26,7 @@ export const getUserData = async (req, res) => {
 export const updateUserData = async (req, res) => {
     try {
         const { userId } = req.auth()
-        let {username, bio, location, full_name } = req.body;
+        let {username, bio, location, full_name, social_media } = req.body;
 
         const tempUser = await User.findById(userId)
 
@@ -44,7 +44,8 @@ export const updateUserData = async (req, res) => {
             username,
             bio,
             location,
-            full_name
+            full_name,
+            social_media: social_media ? JSON.parse(social_media) : tempUser.social_media
         }
 
         const profile = req.files.profile && req.files.profile[0]
