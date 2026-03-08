@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { BadgeCheck, Heart, MessageCircle, Share2, Trash2 } from 'lucide-react'
+import { BadgeCheck, Heart, MessageCircle, Share2, MoreVertical } from 'lucide-react'
 import moment from 'moment'
 import { dummyUserData } from '../assets/assets'
 import { useNavigate } from 'react-router-dom'
@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux';
 import { useAuth } from '@clerk/clerk-react'
 import api from '../api/axios'
 import toast from 'react-hot-toast'
+import EditPostModal from './EditPostModal'
 
 const PostCard = ({post}) => {
 
@@ -40,6 +41,8 @@ const PostCard = ({post}) => {
     const navigate = useNavigate()
 
     const [showShare, setShowShare] = useState(false)
+    const [showMenu, setShowMenu] = useState(false)
+    const [showEdit, setShowEdit] = useState(false)
     const postUrl = `${window.location.origin}/post/${post._id}`
 
     const handleShare = (type) => {
@@ -68,6 +71,10 @@ const PostCard = ({post}) => {
         }
     }
 
+    const handleEditSuccess = () => {
+        window.location.reload()
+    }
+
     return (
     <div className='bg-white rounded-xl shadow p-4 space-y-4 w-full max-w-2xl'>
         {/* User Info */}
@@ -83,9 +90,17 @@ const PostCard = ({post}) => {
                 </div>
             </div>
             {currentUser._id === post.user._id && (
-                <button onClick={handleDelete} className='text-red-500 hover:text-red-700 cursor-pointer' title='Delete post'>
-                    <Trash2 className='w-5 h-5'/>
-                </button>
+                <div className='relative'>
+                    <button onClick={() => setShowMenu(!showMenu)} className='text-gray-500 hover:text-gray-700 cursor-pointer'>
+                        <MoreVertical className='w-5 h-5'/>
+                    </button>
+                    {showMenu && (
+                        <div className='absolute z-50 top-6 right-0 bg-white border border-gray-200 rounded shadow-md flex flex-col'>
+                            <button onClick={() => {setShowEdit(true); setShowMenu(false)}} className='px-4 py-2 text-left hover:bg-gray-100 text-sm whitespace-nowrap'>Edit post</button>
+                            <button onClick={() => {handleDelete(); setShowMenu(false)}} className='px-4 py-2 text-left hover:bg-gray-100 text-sm text-red-500 whitespace-nowrap'>Delete post</button>
+                        </div>
+                    )}
+                </div>
             )}
         </div>
          {/* Content */}
@@ -122,7 +137,8 @@ const PostCard = ({post}) => {
 
         </div>
 
-
+        {/* Edit Post Modal */}
+        {showEdit && <EditPostModal post={post} setShowEdit={setShowEdit} onSuccess={handleEditSuccess}/>}
     </div>
   )
 }

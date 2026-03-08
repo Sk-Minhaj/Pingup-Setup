@@ -113,3 +113,57 @@ export const deletePost = async (req, res) =>{
         res.json({ success: false, message: error.message });
     }
 }
+
+// Edit Post
+export const editPost = async (req, res) =>{
+    try {
+        const { userId } = req.auth()
+        const { postId, content } = req.body;
+        const images = req.files
+
+        const post = await Post.findById(postId)
+
+        if(!post){
+            return res.json({ success: false, message: 'Post not found' });
+        }
+
+        if(post.user !== userId){
+            return res.json({ success: false, message: 'You can only edit your own posts' });
+        }
+
+        let image_urls = post.image_urls
+
+        if(images && images.length > 0){
+            image_urls = await Promise.all(
+                images.map(async (image) => {
+                    const fileBuffer = fs.readFileSync(image.path)
+                     const response = await imagekit.upload({
+                            file: fileBuffer,
+                            fileName: image.originalname,
+                            folder: "posts",
+                        })
+
+                        const url = imagekit.url({
+                            path: response.filePath,
+                            transformation: [
+                                {quality: 'auto'},
+                                { format: 'webp' },
+                                { width: '1280' }
+                            ]
+                        })
+                        return url
+                })
+            )
+        }
+
+        post.content = content
+        post.image_urls = image_urls
+        await post.save()
+
+        res.json({ success: true, message: 'Post updated successfully', post });
+
+    } catch (error) {
+        console.log(error);
+        res.json({ success: false, message: error.message });
+    }
+}
