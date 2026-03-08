@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { BadgeCheck, Heart, MessageCircle, Share2, MoreVertical } from 'lucide-react'
+import { BadgeCheck, Heart, MessageCircle, Share2, MoreVertical, Send, Trash2 } from 'lucide-react'
 import moment from 'moment'
 import { dummyUserData } from '../assets/assets'
 import { useNavigate } from 'react-router-dom'
@@ -9,10 +9,14 @@ import api from '../api/axios'
 import toast from 'react-hot-toast'
 import EditPostModal from './EditPostModal'
 
-const PostCard = ({post}) => {
+const PostCard = ({post: initialPost}) => {
 
-    const postWithHashtags = post.content.replace(/(#\w+)/g, '<span class="text-indigo-600">$1</span>')
-    const [likes, setLikes] = useState(post.likes_count)
+    const postWithHashtags = initialPost.content.replace(/(#\w+)/g, '<span class="text-indigo-600">$1</span>')
+    const [likes, setLikes] = useState(initialPost.likes_count)
+    const [post, setPost] = useState(initialPost)
+    const [showComments, setShowComments] = useState(false)
+    const [commentText, setCommentText] = useState('')
+    const [isSubmittingComment, setIsSubmittingComment] = useState(false)
     const currentUser = useSelector((state) => state.user.value)
 
     const { getToken } = useAuth()
@@ -32,6 +36,52 @@ const PostCard = ({post}) => {
                })
             }else{
                 toast(data.message)
+            }
+        } catch (error) {
+            toast.error(error.message)
+        }
+    }
+
+    const handleAddComment = async (e) => {
+        e.preventDefault()
+        if(!commentText.trim()){
+            toast.error('Comment cannot be empty')
+            return
+        }
+
+        setIsSubmittingComment(true)
+        try {
+            const { data } = await api.post('/api/post/comment/add', 
+                {postId: post._id, content: commentText}, 
+                {headers: { Authorization: `Bearer ${await getToken()}` }}
+            )
+
+            if(data.success){
+                toast.success('Comment added successfully')
+                setPost(data.post)
+                setCommentText('')
+            }else{
+                toast.error(data.message)
+            }
+        } catch (error) {
+            toast.error(error.message)
+        } finally {
+            setIsSubmittingComment(false)
+        }
+    }
+
+    const handleDeleteComment = async (commentId) => {
+        try {
+            const { data } = await api.post('/api/post/comment/delete', 
+                {postId: post._id, commentId}, 
+                {headers: { Authorization: `Bearer ${await getToken()}` }}
+            )
+
+            if(data.success){
+                toast.success('Comment deleted successfully')
+                setPost(data.post)
+            }else{
+                toast.error(data.message)
             }
         } catch (error) {
             toast.error(error.message)
@@ -119,9 +169,9 @@ const PostCard = ({post}) => {
                 <Heart className={`w-4 h-4 cursor-pointer ${likes.includes(currentUser._id) && 'text-red-500 fill-red-500'}`} onClick={handleLike}/>
                 <span>{likes.length}</span>
             </div>
-            <div className='flex items-center gap-1'>
+            <div className='flex items-center gap-1 cursor-pointer' onClick={() => setShowComments(!showComments)}>
                 <MessageCircle className="w-4 h-4"/>
-                <span>{12}</span>
+                <span>{post.comments?.length || 0}</span>
             </div>
                 <div className='flex items-center gap-1 relative'>
                     <Share2 className="w-4 h-4 cursor-pointer" onClick={() => setShowShare(true)} />
@@ -136,6 +186,61 @@ const PostCard = ({post}) => {
                 </div>
 
         </div>
+
+        {/* Comments Section */}
+        {showComments && (
+            <div className='border-t border-gray-300 pt-4 space-y-4'>
+                {/* Comment Input */}
+                <form onSubmit={handleAddComment} className='flex gap-2 items-end'>
+                    <img src={currentUser.profile_picture} alt="" className='w-8 h-8 rounded-full'/>
+                    <div className='flex-1 flex gap-2'>
+                        <input 
+                            type="text" 
+                            placeholder="Add a comment..." 
+                            value={commentText}
+                            onChange={(e) => setCommentText(e.target.value)}
+                            className='flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none text-sm'
+                        />
+                        <button 
+                            type='submit' 
+                            disabled={isSubmittingComment}
+                            className='bg-indigo-600 hover:bg-indigo-700 disabled:bg-gray-400 text-white p-2 rounded-lg transition cursor-pointer'
+                        >
+                            <Send className='w-4 h-4'/>
+                        </button>
+                    </div>
+                </form>
+
+                {/* Comments List */}
+                <div className='space-y-3 max-h-96 overflow-y-auto'>
+                    {post.comments && post.comments.length > 0 ? (
+                        post.comments.map((comment) => (
+                            <div key={comment._id} className='flex gap-2 p-2 bg-gray-50 rounded-lg'>
+                                <img src={comment.user.profile_picture} alt="" className='w-7 h-7 rounded-full'/>
+                                <div className='flex-1'>
+                                    <div className='flex items-center gap-2'>
+                                        <span className='font-semibold text-sm'>{comment.user.full_name}</span>
+                                        <span className='text-xs text-gray-500'>@{comment.user.username}</span>
+                                        <span className='text-xs text-gray-500'>{moment(comment.createdAt).fromNow()}</span>
+                                    </div>
+                                    <p className='text-sm text-gray-700 mt-1'>{comment.content}</p>
+                                </div>
+                                {currentUser._id === comment.user._id && (
+                                    <button 
+                                        onClick={() => handleDeleteComment(comment._id)}
+                                        className='text-red-500 hover:text-red-700 p-1'
+                                    >
+                                        <Trash2 className='w-4 h-4'/>
+                                    </button>
+                                )}
+                            </div>
+                        ))
+                    ) : (
+                        <p className='text-gray-500 text-sm text-center py-2'>No comments yet. Be the first!</p>
+                    )}
+                </div>
+            </div>
+        )}
 
         {/* Edit Post Modal */}
         {showEdit && <EditPostModal post={post} setShowEdit={setShowEdit} onSuccess={handleEditSuccess}/>}

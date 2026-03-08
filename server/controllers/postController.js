@@ -167,3 +167,69 @@ export const editPost = async (req, res) =>{
         res.json({ success: false, message: error.message });
     }
 }
+
+// Add Comment
+export const addComment = async (req, res) => {
+    try {
+        const { userId } = req.auth()
+        const { postId, content } = req.body
+
+        if(!content || content.trim() === ''){
+            return res.json({ success: false, message: 'Comment cannot be empty' });
+        }
+
+        const post = await Post.findById(postId).populate('comments.user')
+
+        if(!post){
+            return res.json({ success: false, message: 'Post not found' });
+        }
+
+        post.comments.push({
+            user: userId,
+            content
+        })
+
+        await post.save()
+        await post.populate('comments.user')
+
+        res.json({ success: true, message: 'Comment added successfully', post });
+
+    } catch (error) {
+        console.log(error);
+        res.json({ success: false, message: error.message });
+    }
+}
+
+// Delete Comment
+export const deleteComment = async (req, res) => {
+    try {
+        const { userId } = req.auth()
+        const { postId, commentId } = req.body
+
+        const post = await Post.findById(postId)
+
+        if(!post){
+            return res.json({ success: false, message: 'Post not found' });
+        }
+
+        const comment = post.comments.id(commentId)
+
+        if(!comment){
+            return res.json({ success: false, message: 'Comment not found' });
+        }
+
+        if(comment.user !== userId){
+            return res.json({ success: false, message: 'You can only delete your own comments' });
+        }
+
+        post.comments.id(commentId).deleteOne()
+        await post.save()
+        await post.populate('comments.user')
+
+        res.json({ success: true, message: 'Comment deleted successfully', post });
+
+    } catch (error) {
+        console.log(error);
+        res.json({ success: false, message: error.message });
+    }
+}

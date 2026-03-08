@@ -11,6 +11,7 @@ import { useAuth } from '@clerk/clerk-react'
 import api from '../api/axios'
 import toast from 'react-hot-toast'
 import { useSelector } from 'react-redux'
+import { Pencil } from 'lucide-react'
 
 const Profile = () => {
 
@@ -54,8 +55,13 @@ const Profile = () => {
         {/* Profile Card */}
         <div className='bg-white rounded-2xl shadow overflow-hidden'>
           {/* Cover Photo */}
-          <div className='h-40 md:h-56 bg-gradient-to-r from-indigo-200 via-purple-200 to-pink-200'>
+          <div className='group/cover relative h-40 md:h-56 bg-gradient-to-r from-indigo-200 via-purple-200 to-pink-200 overflow-hidden'>
             {user.cover_photo && <img src={user.cover_photo} alt='' className='w-full h-full object-cover'/>}
+            {!profileId && (
+              <button onClick={() => setShowEdit(true)} className='absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-3 rounded-full opacity-0 group-hover/cover:opacity-100 transition-all duration-200 cursor-pointer'>
+                <Pencil className='w-6 h-6'/>
+              </button>
+            )}
           </div>
           {/* User Info */}
           <UserProfileInfo user={user} posts={posts} profileId={profileId} setShowEdit={setShowEdit}/>
