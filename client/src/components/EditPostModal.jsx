@@ -3,17 +3,20 @@ import { X, Image } from 'lucide-react'
 import toast from 'react-hot-toast'
 import { useAuth } from '@clerk/clerk-react'
 import api from '../api/axios'
+import CodeSnippetEditor from './CodeSnippetEditor'
+import CodeSnippetDisplay from './CodeSnippetDisplay'
 
 const EditPostModal = ({post, setShowEdit, onSuccess}) => {
 
     const [content, setContent] = useState(post.content)
     const [images, setImages] = useState([])
+    const [codeSnippets, setCodeSnippets] = useState(post.code_snippets || [])
     const [loading, setLoading] = useState(false)
     const { getToken } = useAuth()
 
     const handleSubmit = async () => {
-        if(!images.length && !content){
-            return toast.error('Please add content or images')
+        if(!images.length && !content && !codeSnippets.length){
+            return toast.error('Please add content, images, or code snippets')
         }
         setLoading(true)
 
@@ -21,6 +24,7 @@ const EditPostModal = ({post, setShowEdit, onSuccess}) => {
             const formData = new FormData();
             formData.append('content', content)
             formData.append('postId', post._id)
+            formData.append('code_snippets', JSON.stringify(codeSnippets))
             images.map((image) => {
                 formData.append('images', image)
             })
@@ -97,9 +101,40 @@ const EditPostModal = ({post, setShowEdit, onSuccess}) => {
                     <input type="file" id="new-images" accept='image/*' hidden multiple onChange={(e)=>setImages([...images, ...e.target.files])}/>
                 </div>
 
+                {/* Code Snippets */}
+                {codeSnippets.length > 0 && (
+                    <div className='space-y-3'>
+                        <div className='flex items-center justify-between'>
+                            <h3 className='font-semibold text-gray-900'>Code Snippets</h3>
+                            <button
+                                type='button'
+                                onClick={() => setCodeSnippets(codeSnippets.slice(0, -1))}
+                                className='text-sm text-red-600 hover:text-red-700 cursor-pointer'
+                            >
+                                Remove Last
+                            </button>
+                        </div>
+                        {codeSnippets.map((snippet, i) => (
+                            <div key={i} className='relative'>
+                                <button
+                                    type='button'
+                                    onClick={() => setCodeSnippets(codeSnippets.filter((_, idx) => idx !== i))}
+                                    className='absolute top-2 right-2 z-10 bg-red-600 hover:bg-red-700 text-white p-1 rounded'
+                                >
+                                    <X className='w-4 h-4' />
+                                </button>
+                                <CodeSnippetDisplay snippet={snippet} />
+                            </div>
+                        ))}
+                    </div>
+                )}
+
+                {/* Code Snippet Editor */}
+                <CodeSnippetEditor onAddSnippet={(snippet) => setCodeSnippets([...codeSnippets, snippet])} />
+
                 <div className='flex justify-end space-x-3 pt-6'>
                     <button onClick={()=> setShowEdit(false)} type='button' className='px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors cursor-pointer'>Cancel</button>
-                    <button disabled={loading} type='submit' className='px-4 py-2 bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-lg hover:from-indigo-600 hover:to-purple-700 transition cursor-pointer'>Save Changes</button>
+                    <button disabled={loading} type='submit' className='px-4 py-2 bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-lg hover:from-indigo-600 hover:to-purple-700 transition cursor-pointer disabled:opacity-50'>Save Changes</button>
                 </div>
 
             </form>

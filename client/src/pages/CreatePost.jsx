@@ -6,12 +6,15 @@ import { useSelector } from "react-redux";
 import { useAuth } from '@clerk/clerk-react';
 import api from '../api/axios';
 import { useNavigate } from 'react-router-dom';
+import CodeSnippetEditor from '../components/CodeSnippetEditor'
+import CodeSnippetDisplay from '../components/CodeSnippetDisplay'
 
 const CreatePost = () => {
 
   const navigate = useNavigate()
   const [content, setContent] = useState('')
   const [images, setImages] = useState([])
+  const [codeSnippets, setCodeSnippets] = useState([])
   const [loading, setLoading] = useState(false)
 
   const user = useSelector((state)=>state.user.value)
@@ -19,8 +22,8 @@ const CreatePost = () => {
   const  { getToken } = useAuth()
   
  const handleSubmit = async () => {
-  if(!images.length && !content){
-    return toast.error('Please add at least one image or text')
+  if(!images.length && !content && !codeSnippets.length){
+    return toast.error('Please add at least one image, text, or code snippet')
   }
   setLoading(true)
 
@@ -30,6 +33,7 @@ const CreatePost = () => {
     const formData = new FormData();
     formData.append('content', content)
     formData.append('post_type', postType)
+    formData.append('code_snippets', JSON.stringify(codeSnippets))
     images.map((image) =>{
       formData.append('images', image)
     })
@@ -59,7 +63,7 @@ const CreatePost = () => {
          </div>
 
          {/* Form */}
-         <div className='max-w-xl bg-white p-4 sm:p-8 sm:pb-3 rounded-xl shadow-md space-y-4'>
+         <div className='max-w-xl bg-white p-4 sm:p-8 rounded-xl shadow-md space-y-4'>
             {/* Header */}
             <div className='flex items-center gap-3'>
               <img src={user.profile_picture} alt="" className='w-12 h-12 rounded-full shadow'/>
@@ -86,6 +90,35 @@ const CreatePost = () => {
               </div>
              }
 
+             {/* Code Snippets */}
+             {codeSnippets.length > 0 && (
+               <div className='space-y-3'>
+                 <div className='flex items-center justify-between'>
+                   <h3 className='font-semibold text-gray-900'>Code Snippets</h3>
+                   <button
+                     onClick={() => setCodeSnippets(codeSnippets.slice(0, -1))}
+                     className='text-sm text-red-600 hover:text-red-700 cursor-pointer'
+                   >
+                     Remove Last
+                   </button>
+                 </div>
+                 {codeSnippets.map((snippet, i) => (
+                   <div key={i} className='relative'>
+                     <button
+                       onClick={() => setCodeSnippets(codeSnippets.filter((_, idx) => idx !== i))}
+                       className='absolute top-2 right-2 z-10 bg-red-600 hover:bg-red-700 text-white p-1 rounded'
+                     >
+                       <X className='w-4 h-4' />
+                     </button>
+                     <CodeSnippetDisplay snippet={snippet} />
+                   </div>
+                 ))}
+               </div>
+             )}
+
+             {/* Code Snippet Editor */}
+             <CodeSnippetEditor onAddSnippet={(snippet) => setCodeSnippets([...codeSnippets, snippet])} />
+
               {/* Bottom Bar */}
               <div className='flex items-center justify-between pt-3 border-t border-gray-300'>
                 <label htmlFor="images" className='flex items-center gap-2 text-sm text-gray-500 hover:text-gray-700 transition cursor-pointer'>
@@ -101,7 +134,7 @@ const CreatePost = () => {
                     success: <p>Post Added </p>,
                     error: <p>Post Not Added</p>,
                   }
-                )} className='text-sm bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 active:scale-95 transition text-white font-medium px-8 py-2 rounded-md cursor-pointer'>
+                )} className='text-sm bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 active:scale-95 transition text-white font-medium px-8 py-2 rounded-md cursor-pointer disabled:opacity-50'>
                   Publish Post
                 </button>
               </div>
