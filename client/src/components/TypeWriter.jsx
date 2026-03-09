@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 
-const TypeWriter = ({ text, speed = 150, className = '', loopDelay = 2000 }) => {
+const TypeWriter = ({ text, speed = 150, className = '', loopDelay = 2000, style }) => {
   const [displayedText, setDisplayedText] = useState('')
   const [index, setIndex] = useState(0)
 
@@ -22,7 +22,7 @@ const TypeWriter = ({ text, speed = 150, className = '', loopDelay = 2000 }) => 
   }, [index, text, speed, loopDelay])
 
   return (
-    <span className={className}>
+    <span className={className} style={style}>
       {displayedText}
       {index <= text.length && (
         <span className='animate-pulse'>|</span>
