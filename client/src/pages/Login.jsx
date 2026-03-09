@@ -26,16 +26,17 @@ const Login = () => {
             
             {/* Enhanced Hero Headline - Modern & Premium */}
             <div className='mt-6 md:mt-8'>
-              <h1 className='font-black tracking-tight' style={{ lineHeight: '1.1' }}>
-                <span className='block text-4xl md:text-6xl text-gray-900 dark:text-white'>Build. Code.</span>
-                <span className='block text-5xl md:text-8xl'>
+              <h1 className='tracking-tight' style={{ fontWeight: 780, lineHeight: '1.05', letterSpacing: '-0.03em' }}>
+                <span className='block text-4xl md:text-5xl lg:text-6xl text-gray-900 dark:text-white'>Build. Code.</span>
+                <span className='block text-5xl md:text-6xl lg:text-[5.5rem] mt-1'>
                   <TypeWriter 
                     text="Collaborate." 
                     speed={80} 
-                    className='bg-gradient-to-r from-purple-600 via-pink-500 to-red-500 bg-clip-text text-transparent dark:from-purple-400 dark:via-pink-400 dark:to-red-400 font-black'
+                    className='bg-gradient-to-r from-violet-600 via-fuchsia-500 to-pink-500 bg-clip-text text-transparent dark:from-violet-400 dark:via-fuchsia-400 dark:to-pink-400'
                     style={{
-                      filter: 'drop-shadow(0 0 20px rgba(168, 85, 247, 0.3))',
-                      letterSpacing: '-0.02em'
+                      fontWeight: 800,
+                      letterSpacing: '-0.035em',
+                      filter: 'drop-shadow(0 0 24px rgba(139, 92, 246, 0.25)) drop-shadow(0 0 8px rgba(217, 70, 239, 0.15))'
                     }}
                   />
                 </span>
@@ -43,7 +44,7 @@ const Login = () => {
             </div>
 
             {/* Modern Tagline - Clean & Professional */}
-            <p className='mt-6 md:mt-8 text-lg md:text-xl font-medium text-gray-700 dark:text-gray-300 max-w-2xl leading-relaxed'>
+            <p className='mt-5 md:mt-6 font-medium text-gray-600 dark:text-gray-400 max-w-lg' style={{ fontSize: '1.125rem', lineHeight: '1.6', letterSpacing: '0.01em' }}>
               Where developers build the future together.
             </p>
         </div>
