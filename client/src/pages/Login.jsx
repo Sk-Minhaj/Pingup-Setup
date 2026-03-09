@@ -1,6 +1,6 @@
 import React from 'react'
 import { assets } from '../assets/assets'
-import { Star, Zap } from 'lucide-react'
+import { Star } from 'lucide-react'
 import {SignIn} from '@clerk/clerk-react'
 import TypeWriter from '../components/TypeWriter'
 
@@ -24,27 +24,28 @@ const Login = () => {
                 </div>
             </div>
             
-            {/* Headline with proper alignment */}
+            {/* Enhanced Hero Headline - Modern & Premium */}
             <div className='mt-6 md:mt-8'>
-              <h1 className='text-4xl md:text-7xl font-bold leading-tight'>
-                <span className='block bg-gradient-to-r from-indigo-600 to-indigo-400 bg-clip-text text-transparent dark:from-indigo-400 dark:to-indigo-300'>Build. Code.</span>
-                <span className='block'>
-                  <TypeWriter text="Collaborate." speed={80} className='bg-gradient-to-r from-purple-600 via-pink-500 to-red-500 bg-clip-text text-transparent dark:from-purple-400 dark:via-pink-400 dark:to-red-400'/>
+              <h1 className='font-black tracking-tight' style={{ lineHeight: '1.1' }}>
+                <span className='block text-4xl md:text-6xl text-gray-900 dark:text-white'>Build. Code.</span>
+                <span className='block text-5xl md:text-8xl'>
+                  <TypeWriter 
+                    text="Collaborate." 
+                    speed={80} 
+                    className='bg-gradient-to-r from-purple-600 via-pink-500 to-red-500 bg-clip-text text-transparent dark:from-purple-400 dark:via-pink-400 dark:to-red-400 font-black'
+                    style={{
+                      filter: 'drop-shadow(0 0 20px rgba(168, 85, 247, 0.3))',
+                      letterSpacing: '-0.02em'
+                    }}
+                  />
                 </span>
               </h1>
             </div>
 
-            {/* Redesigned Tagline with gradient highlights */}
-            <div className='mt-4 md:mt-6 flex items-start gap-2.5'>
-              <Zap className='size-6 md:size-7 text-indigo-600 dark:text-indigo-400 flex-shrink-0 mt-0.5'/>
-              <p className='text-lg md:text-xl font-medium leading-relaxed max-w-2xl'>
-                <span className='text-gray-800 dark:text-gray-100'>Where tech enthusiasts </span>
-                <span className='bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent dark:from-indigo-300 dark:to-purple-300 font-semibold'>connect</span>
-                <span className='text-gray-800 dark:text-gray-100'> and </span>
-                <span className='bg-gradient-to-r from-purple-600 to-pink-500 bg-clip-text text-transparent dark:from-purple-300 dark:to-pink-300 font-semibold'>innovate</span>
-                <span className='text-gray-800 dark:text-gray-100'> together</span>
-              </p>
-            </div>
+            {/* Modern Tagline - Clean & Professional */}
+            <p className='mt-6 md:mt-8 text-lg md:text-xl font-medium text-gray-700 dark:text-gray-300 max-w-2xl leading-relaxed'>
+              Where developers build the future together.
+            </p>
         </div>
         <span className='md:h-10'></span>
       </div>
