@@ -15,7 +15,7 @@ const Login = () => {
         <img src={assets.logo} alt="Logo" className='h-12 object-contain' />
         <div>
           <div className='flex items-center gap-3 mb-4 max-md:mt-10'>
-            <img src={assets.group_users2} alt="Users" className='h-8 md:h-10' />
+            <img src={assets.group_users} alt="Users" className='h-8 md:h-10' />
             <div>
               <div className='flex'>
                 {Array(5).fill(0).map((_, i) => (<Star key={i} className='size-4 md:size-4.5 text-transparent fill-amber-500' />))}
