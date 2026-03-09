@@ -2,7 +2,7 @@ import logo from './logo.png'
 import sample_cover from './sample_cover.jpg'
 import sample_profile from './sample_profile.jpg'
 import bgImage from './bgImage.png'
-import group_users from './group_users.png'
+import group_users1 from './group_users1.png'
 import { Home, MessageCircle, Search, UserIcon, Users } from 'lucide-react'
 import sponsored_img1 from './sponsored_img1.png'
 
@@ -11,7 +11,7 @@ export const assets = {
     sample_cover,
     sample_profile,
     bgImage,
-    group_users,
+    group_users1,
     sponsored_img1
 }
 
