@@ -48,8 +48,13 @@ const Login = () => {
           </div>
 
           {/* Modern Tagline - Clean & Professional */}
-          <p className='mt-6 md:mt-7 text-gray-600 dark:text-gray-300 text-lg leading-relaxed font-medium tracking-tight'>
-            Where developers <span className='text-gray-900 dark:text-white font-semibold'>build the future</span> together.
+          <p className="mt-6 md:mt-7 text-gray-600 dark:text-gray-300 text-lg leading-relaxed font-medium tracking-tight">
+            Where developers{" "}
+            <span className="relative font-semibold text-gray-900 dark:text-white">
+              build the future
+              <span className="absolute left-0 -bottom-1 h-[2px] w-full bg-gradient-to-r from-violet-500 to-pink-500 rounded-full"></span>
+            </span>{" "}
+            together.
           </p>
         </div>
         <span className='md:h-10'></span>
@@ -88,6 +93,21 @@ export default Login
             >
               Where developers build the future together.
             </p>
+
+
+
+*/
+
+/* premium version of hero headline and tagline
+
+<p className="mt-6 md:mt-7 text-gray-600 dark:text-gray-300 text-lg leading-relaxed font-medium tracking-tight">
+  Where developers{" "}
+  <span className="relative font-semibold text-gray-900 dark:text-white">
+    build the future
+    <span className="absolute left-0 -bottom-1 h-[2px] w-full bg-gradient-to-r from-violet-500 to-pink-500 rounded-full"></span>
+  </span>{" "}
+  together.
+</p>
 
 
 
