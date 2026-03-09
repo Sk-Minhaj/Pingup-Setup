@@ -26,17 +26,21 @@ const Login = () => {
             
             {/* Enhanced Hero Headline - Modern & Premium */}
             <div className='mt-6 md:mt-8'>
-              <h1 className='tracking-tight' style={{ fontWeight: 780, lineHeight: '1.05', letterSpacing: '-0.03em' }}>
-                <span className='block text-4xl md:text-5xl lg:text-6xl text-gray-900 dark:text-white'>Build. Code.</span>
-                <span className='block text-5xl md:text-6xl lg:text-[5.5rem] mt-1'>
-                  <TypeWriter 
-                    text="Collaborate." 
-                    speed={80} 
-                    className='bg-gradient-to-r from-violet-600 via-fuchsia-500 to-pink-500 bg-clip-text text-transparent dark:from-violet-400 dark:via-fuchsia-400 dark:to-pink-400'
+              <h1 style={{ lineHeight: '1.0' }}>
+                <span
+                  className='block text-gray-900 dark:text-white'
+                  style={{ fontSize: 'clamp(2.25rem, 5vw, 3.75rem)', fontWeight: 750, letterSpacing: '-0.04em' }}
+                >
+                  Build. Code.
+                </span>
+                <span className='block mt-1' style={{ fontSize: 'clamp(2.75rem, 6.5vw, 5rem)' }}>
+                  <TypeWriter
+                    text="Collaborate."
+                    speed={80}
+                    className='hero-gradient-text'
                     style={{
                       fontWeight: 800,
-                      letterSpacing: '-0.035em',
-                      filter: 'drop-shadow(0 0 24px rgba(139, 92, 246, 0.25)) drop-shadow(0 0 8px rgba(217, 70, 239, 0.15))'
+                      letterSpacing: '-0.045em',
                     }}
                   />
                 </span>
@@ -44,7 +48,10 @@ const Login = () => {
             </div>
 
             {/* Modern Tagline - Clean & Professional */}
-            <p className='mt-5 md:mt-6 font-medium text-gray-600 dark:text-gray-400 max-w-lg' style={{ fontSize: '1.125rem', lineHeight: '1.6', letterSpacing: '0.01em' }}>
+            <p
+              className='mt-5 md:mt-6 text-gray-500 dark:text-gray-400'
+              style={{ fontSize: '1.125rem', fontWeight: 500, lineHeight: '1.6', letterSpacing: '0.005em' }}
+            >
               Where developers build the future together.
             </p>
         </div>

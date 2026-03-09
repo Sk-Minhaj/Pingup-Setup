@@ -16,3 +16,29 @@ html.dark, body.dark {
 .no-scrollbar::-webkit-scrollbar{
   display: none;
 }
+
+/* Hero gradient text */
+.hero-gradient-text {
+  background: linear-gradient(135deg, #6366f1, #8b5cf6, #a855f7, #7c3aed);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradient-shift 6s ease-in-out infinite;
+  filter: drop-shadow(0 0 28px rgba(139, 92, 246, 0.18));
+}
+
+.dark .hero-gradient-text {
+  background: linear-gradient(135deg, #818cf8, #a78bfa, #c084fc, #8b5cf6);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradient-shift 6s ease-in-out infinite;
+  filter: drop-shadow(0 0 32px rgba(167, 139, 250, 0.22));
+}
+
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
