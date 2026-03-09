@@ -23,14 +23,26 @@ const Login = () => {
                     <p className='text-gray-700 dark:text-gray-300 text-sm'>Used by 10k+ developers</p>
                 </div>
             </div>
-            <h1 className='text-3xl md:text-6xl md:pb-2 font-bold'>
-              <span className='bg-gradient-to-r from-indigo-600 to-indigo-400 bg-clip-text text-transparent dark:from-indigo-400 dark:to-indigo-300'>Build. Code. </span>
-              <TypeWriter text="Collaborate." speed={100} className='bg-gradient-to-r from-purple-600 to-pink-500 bg-clip-text text-transparent dark:from-purple-400 dark:to-pink-400'/>
-            </h1>
-            <div className='mt-6 md:mt-8 flex items-start gap-3'>
-              <Zap className='size-6 md:size-8 text-indigo-600 dark:text-indigo-400 flex-shrink-0 mt-1'/>
-              <p className='text-lg md:text-2xl font-semibold bg-gradient-to-r from-gray-800 via-indigo-600 to-purple-600 bg-clip-text text-transparent dark:from-gray-200 dark:via-indigo-300 dark:to-purple-300 max-w-lg leading-relaxed'>
-                Where tech enthusiasts connect and innovate together
+            
+            {/* Headline with proper alignment */}
+            <div className='mt-6 md:mt-8'>
+              <h1 className='text-4xl md:text-7xl font-bold leading-tight'>
+                <span className='block bg-gradient-to-r from-indigo-600 to-indigo-400 bg-clip-text text-transparent dark:from-indigo-400 dark:to-indigo-300'>Build. Code.</span>
+                <span className='block'>
+                  <TypeWriter text="Collaborate." speed={80} className='bg-gradient-to-r from-purple-600 via-pink-500 to-red-500 bg-clip-text text-transparent dark:from-purple-400 dark:via-pink-400 dark:to-red-400'/>
+                </span>
+              </h1>
+            </div>
+
+            {/* Redesigned Tagline with gradient highlights */}
+            <div className='mt-4 md:mt-6 flex items-start gap-2.5'>
+              <Zap className='size-6 md:size-7 text-indigo-600 dark:text-indigo-400 flex-shrink-0 mt-0.5'/>
+              <p className='text-lg md:text-xl font-medium leading-relaxed max-w-2xl'>
+                <span className='text-gray-800 dark:text-gray-100'>Where tech enthusiasts </span>
+                <span className='bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent dark:from-indigo-300 dark:to-purple-300 font-semibold'>connect</span>
+                <span className='text-gray-800 dark:text-gray-100'> and </span>
+                <span className='bg-gradient-to-r from-purple-600 to-pink-500 bg-clip-text text-transparent dark:from-purple-300 dark:to-pink-300 font-semibold'>innovate</span>
+                <span className='text-gray-800 dark:text-gray-100'> together</span>
               </p>
             </div>
         </div>
